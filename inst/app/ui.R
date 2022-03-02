@@ -14,7 +14,8 @@ ui = fluidPage(
   mainPanel(
    tabsetPanel(
     tabPanel("manh", verbatimTextOutput("gname"), TnTOutput("tntmanh")),
-    tabPanel("about", helpText("simple demonstration, small set of genes on chr20, GTEx lung excerpt"))
+    tabPanel("about", helpText("simple demonstration, small set of genes on chr20, GTEx lung excerpt"),
+      verbatimTextOutput("desc"))
    )
   )
  )

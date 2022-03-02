@@ -20,5 +20,8 @@ server = function(input, output, session) {
    tab = gtex_b38_lung_chr20_exc |> filter_sym(sym, radius=rad) |> as.data.frame()
    tntplot(tab)
   })
+  output$desc = renderPrint({
+   packageDescription("tnt4dn8")
+  })
 }
   
