@@ -12,6 +12,7 @@ rsq_connect = function(x) dbConnect(SQLite(), x, flags=SQLITE_RO)
 #' @import RSQLite
 #' @import methods
 #' @importFrom dplyr tbl
+#' @importFrom tibble as_tibble
 #' @note The structure is a flat list with components connections, tables (just
 #' a list of tablenames per connection), and status (defaults to "open")
 #' only for use at channing
@@ -124,7 +125,7 @@ filter_sym = function (.data, sym, radius=0 )
         remapped = rtracklayer::liftOver(tmpg, hg38ToHg19)
         GenomeInfoDb::seqlevelsStyle(remapped) = "UCSC"
         ans = unlist(remapped)
-        ans = dplyr::tbl_df(ans)  # for compatibility, don't return GRanges
+        ans = tibble::as_tibble(ans)  # for compatibility, don't return GRanges
         ans$pos = ans$start
 # at this point, liftOver may have introduced another chromosome in the table!
         ans$seqnames = as.character(ans$seqnames)
