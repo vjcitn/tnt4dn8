@@ -1,4 +1,5 @@
 
+
 resources_in_sqlite_lap = function() list(
   copdg_nhw_eqtl = Sys.getenv("COPDG_NHW_EQTL_SQLITE_PATH"),
   ipf_gwas = Sys.getenv("IPF_SQLITE_PATH"),
@@ -75,6 +76,7 @@ tbl.dn8_hub = function(src, ...) {
 
 
 #' filter a symbol from a table meeting dn8 naming conditions
+#' @import rtracklayer
 #' @param .data a tbl
 #' @param sym a character(1) gene symbol
 #' @param radius numeric(1) include `radius` bp upstream and downstream of gene body limits
@@ -108,9 +110,11 @@ filter_sym = function (.data, sym, radius=0 )
     mys = addr[1, "start"]
     mye = addr[1, "end"]
     .data = harmonize_cols_for_filter(.data)  # ensure pos and chr are present for eqtl/mqtl sources
-    dbname = .data$src$con@dbname
-    if (length(grep("mQTLcis.sqlite", dbname))>0) mychr = paste0("chr", mychr)
-    if (length(grep("subsetted_eqtl_cis_nhw.sqlite", dbname))>0) mychr = paste0("chr", mychr)
+    if (!inherits(.data, "data.frame")) {
+        dbname = .data$src$con@dbname
+        if (length(grep("mQTLcis.sqlite", dbname))>0) mychr = paste0("chr", mychr)
+        if (length(grep("subsetted_eqtl_cis_nhw.sqlite", dbname))>0) mychr = paste0("chr", mychr)
+        }
     if ("pos_b38" %in% colnames(.data)) {
         if (!requireNamespace("rtracklayer")) stop("install rtracklayer to use this application")
         tmp = .data |> filter(chr == mychr & pos_b38 >= (mys-radius) & pos_b38 <= (mye+radius)) |> as.data.frame()
@@ -119,7 +123,8 @@ filter_sym = function (.data, sym, radius=0 )
         testchr = as.character(GenomeInfoDb::seqnames(tmpg)[1])
         lchr = length(grep("^chr", testchr))
         if (lchr == 0) GenomeInfoDb::seqlevels(tmpg) = paste0("chr", GenomeInfoDb::seqlevels(tmpg))
-        remapped = rtracklayer::liftOver(tmpg, DWv2::hg38ToHg19)
+        data(hg38toHg19)
+        remapped = rtracklayer::liftOver(tmpg, hg38ToHg19)
         GenomeInfoDb::seqlevelsStyle(remapped) = "UCSC"
         ans = unlist(remapped)
         ans = dplyr::tbl_df(ans)  # for compatibility, don't return GRanges
@@ -131,7 +136,8 @@ filter_sym = function (.data, sym, radius=0 )
 
 
 harmonize_cols_for_filter = function(tab) {
-  dbname = tab$src$con@dbname
+  dbname = try(tab$src$con@dbname, silent=TRUE)
+  if (inherits(dbname, "try-error")) return(tab)
   if (length(grep("mQTLcis.sqlite", dbname))>0) 
      return(mutate(tab, chr=SNP.chr, pos=SNP.pos, p=pvalue, rsid=snps))
   if (length(grep("mQTLcis.all.sqlite", dbname))>0)  # FIXME 'snps' is 'marker format'
@@ -142,10 +148,17 @@ harmonize_cols_for_filter = function(tab) {
   }
 
 
-get_addr_v75 = function(sym) DWv2::genes_ensv75 |> 
+get_addr_v75 = function(sym) {
+   data(genes_ensv75)
+   genes_ensv75 |> 
    dplyr::select(seqnames, start, end, gene_name) |> dplyr::filter(gene_name == sym)
-get_addr_v79 = function(sym) DWv2::genes_ensv79 |> 
+}
+
+get_addr_v79 = function(sym) {
+   data(genes_ensv79)
+   genes_ensv79 |> 
    dplyr::select(seqnames, start, end, gene_name) |> dplyr::filter(gene_name == sym)
+}
 
 select_some = function (obj, maxToShow = 5) 
 {
