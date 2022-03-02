@@ -24,6 +24,7 @@ tab2grngs = function(tab) {
 #' @param snpcolor character(1)
 #' @param genecolor character(1)
 #' @param gt defaults to NULL, otherwise a GeneTrackFromTxDb-like object from TnT
+#' @param maxp numeric(1) if non-NULL loci with p-values greater than this are excluded
 #' @examples
 #' if (requireNamespace("TnT") & requireNamespace("TxDb.Hsapiens.UCSC.hg19.knownGene")) {
 #' data(gtex_b38_lung_chr20_exc)
@@ -33,7 +34,7 @@ tab2grngs = function(tab) {
 #' print(tntplot(chk2))
 #' }
 #' @export
-tntplot = function(tab, snpcolor="lightblue", genecolor="gold", gt=NULL) {
+tntplot = function(tab, snpcolor="lightblue", genecolor="gold", gt=NULL, maxp = .1) {
   if (!requireNamespace("TnT")) stop("install TnT to use this")
   if (!requireNamespace("GenomicRanges")) stop("install GenomicRanges to use this")
   if (is.null(gt)) gt = TnT::GeneTrackFromTxDb(TxDb.Hsapiens.UCSC.hg19.knownGene::TxDb.Hsapiens.UCSC.hg19.knownGene,
@@ -42,6 +43,10 @@ tntplot = function(tab, snpcolor="lightblue", genecolor="gold", gt=NULL) {
     syms = AnnotationDbi::mapIds(org.Hs.eg.db::org.Hs.eg.db, keys=gt@Data$id, keytype="ENTREZID", column="SYMBOL")
   })
   gt@Data$display_label = TnT::strandlabel(syms, GenomicRanges::strand(gt@Data))
+  if (!is.null(maxp)) {
+   todrop = which(tab$p > maxp)
+   if (length(todrop)>0) tab = tab[-todrop,]
+   }
   t2g = tab2grngs(tab)
   tab$value = t2g$value
   pt = TnT::PinTrack( t2g, height=400, tooltip = as.data.frame(tab), color=snpcolor )

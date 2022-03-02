@@ -22,16 +22,13 @@ addresses in hg38 coordinates.  Otherwise, EnsDb.Hsapiens.v75 is used for gene c
 }
 \examples{
 if (interactive()) {
- h = dn8_hub()
- chk = h |> tbl("leic_dn8") |> filter_sym("HHIP") |> as.data.frame()
+ data(gtex_b38_lung_chr20_exc)
+ chk =  gtex_b38_lung_chr20_exc |> filter_sym("ANGPT4", radius=5e5) |> as.data.frame()
  print(names(chk))
  print(dim(chk))
  print(summary(-log10(chk$p)))
- chk2 = h |> tbl("leic_dn8") |> filter_sym("HHIP", radius=1e6) |> as.data.frame()
+ chk2 = gtex_b38_lung_chr20_exc |> filter_sym("FAM110A", radius=1e6) |> as.data.frame()
  print(dim(chk2))
  print(summary(-log10(chk2$p)))
- print(tables(h))
- lapply(tables(h), function(x) h |> tbl(x))
- dn8_hub_close(h)
 }
 }

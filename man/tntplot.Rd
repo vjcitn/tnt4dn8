@@ -4,7 +4,7 @@
 \alias{tntplot}
 \title{TnT approach}
 \usage{
-tntplot(tab, snpcolor = "lightblue", genecolor = "gold", gt = NULL)
+tntplot(tab, snpcolor = "lightblue", genecolor = "gold", gt = NULL, maxp = 0.1)
 }
 \arguments{
 \item{tab}{table}
@@ -14,6 +14,8 @@ tntplot(tab, snpcolor = "lightblue", genecolor = "gold", gt = NULL)
 \item{genecolor}{character(1)}
 
 \item{gt}{defaults to NULL, otherwise a GeneTrackFromTxDb-like object from TnT}
+
+\item{maxp}{numeric(1) if non-NULL loci with p-values greater than this are excluded}
 }
 \description{
 TnT approach

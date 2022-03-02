@@ -12,4 +12,5 @@ provisional constructor of a hub to collect all resources and manage connections
 \note{
 The structure is a flat list with components connections, tables (just
 a list of tablenames per connection), and status (defaults to "open")
+only for use at channing
 }
