@@ -1,0 +1,42 @@
+---
+title: "tnt4dn8: GWAS visualization from dn8 format"
+author: "Vincent J. Carey, stvjc at channing.harvard.edu"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+vignette: >
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{tnt4dn8: GWAS visualization from dn8 format}
+  %\VignetteEncoding{UTF-8}
+output:
+  BiocStyle::html_document:
+    number_sections: yes
+    theme: united
+    toc: yes
+---
+
+# Introduction
+
+dn8 format is a representation for GWAS summary statistics
+developed at Channing Division of Network Medicine.
+
+This package illustrates how to produce informative interactive
+visualizations for GWAS summary statistics, based on the TnT package
+in Bioconductor.
+
+# Example
+
+A main problem is extracting information from archives of GWAS
+summary statistics.  We use an example data frame, `gtex_b38_lung_chr20_exc`,
+which has EQTL p-values for a small number of genes on chr20, derived from GTEx 
+results for lung tissue..
+
+```{r do1}
+suppressPackageStartupMessages({
+  library(tnt4dn8)
+})
+data(gtex_b38_lung_chr20_exc)
+chk2 = gtex_b38_lung_chr20_exc |> filter_sym("SOX12", radius=5e5) |> as.data.frame()
+tntplot(chk2)
+```
+
+You can use click wheel on a mouse to pan and zoom on this display, and the annotation
+underneath the manhattan plot will become more detailed.
