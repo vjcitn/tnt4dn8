@@ -123,12 +123,22 @@ filter_sym = function (.data, sym, radius=0 )
         testchr = as.character(GenomeInfoDb::seqnames(tmpg)[1])
         lchr = length(grep("^chr", testchr))
         if (lchr == 0) GenomeInfoDb::seqlevels(tmpg) = paste0("chr", GenomeInfoDb::seqlevels(tmpg))
-        data(hg38toHg19)
+        data(hg38ToHg19)
         remapped = rtracklayer::liftOver(tmpg, hg38ToHg19)
         GenomeInfoDb::seqlevelsStyle(remapped) = "UCSC"
         ans = unlist(remapped)
         ans = dplyr::tbl_df(ans)  # for compatibility, don't return GRanges
         ans$pos = ans$start
+# at this point, liftOver may have introduced another chromosome in the table!
+        ans$seqnames = as.character(ans$seqnames)
+        chrtab = table(ans$seqnames)
+        nchr = length(chrtab)
+        if (nchr > 1) {
+           if (nchr > 2) stop("liftOver leads to multiple chromosomes")
+           minor = chrtab[which.min(chrtab)]
+           bad = which(ans$seqnames == names(minor))
+           ans = ans[-bad,]
+           }
         }       
     else ans = .data |> filter(chr == mychr & pos >= (mys-radius) & pos <= (mye+radius))
     ans

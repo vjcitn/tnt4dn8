@@ -26,9 +26,10 @@ tab2grngs = function(tab) {
 #' @param gt defaults to NULL, otherwise a GeneTrackFromTxDb-like object from TnT
 #' @examples
 #' if (requireNamespace("TnT") & requireNamespace("TxDb.Hsapiens.UCSC.hg19.knownGene")) {
-#' h = dn8_hub()
-#' chk2 = h |> tbl("leic_dn8") |> filter_sym("HHIP", radius=1e6) |> as.data.frame()
-#' dn8_hub_close(h)
+#' data(gtex_b38_lung_chr20_exc)
+#' cands = avail_syms_gtex()
+#' cands
+#' chk2 = gtex_b38_lung_chr20_exc |> filter_sym(cands[3], radius=5e5) |> as.data.frame()
 #' print(tntplot(chk2))
 #' }
 #' @export
