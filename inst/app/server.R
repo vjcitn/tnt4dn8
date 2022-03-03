@@ -1,7 +1,8 @@
 
 suppressPackageStartupMessages({
 library(shiny)
-library(tnt4dn8)
+library(tnt4dn8)  # need to speed up
+library(shinytoastr)
 data(gtex_b38_lung_chr20_exc)
 })
 
@@ -12,9 +13,10 @@ data(gtex_b38_lung_chr20_exc)
 
 server = function(input, output, session) {
   output$gname = renderPrint({
-    cat(input$gene)
+    cat(paste(input$gene, "in GTEx Lung."))
   })
   output$tntmanh = renderTnT({
+   toastr_info("filtering annotations...", position="top-center")
    sym = input$gene
    rad = input$radius
    tab = gtex_b38_lung_chr20_exc |> filter_sym(sym, radius=rad) |> as.data.frame()

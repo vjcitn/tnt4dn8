@@ -57,6 +57,7 @@ tntplot = function(tab, snpcolor="lightblue", genecolor="gold", gt=NULL, maxp = 
 #' @param tab data.frame
 #' @param snpcolor character(1)
 #' @param genecolor character(1)
+#' @param txcolor character(1)
 #' @param gt defaults to NULL, otherwise a GeneTrackFromTxDb-like object from TnT
 #' @param maxp numeric(1) if non-NULL loci with p-values greater than this are excluded
 #' @examples
@@ -68,7 +69,7 @@ tntplot = function(tab, snpcolor="lightblue", genecolor="gold", gt=NULL, maxp = 
 #' print(tntplot2(chk2))
 #' }
 #' @export
-tntplot2 = function(tab, snpcolor="lightblue", genecolor="gold", gt=NULL, maxp = .1) {
+tntplot2 = function(tab, snpcolor="lightblue", genecolor="darkgreen", txcolor="darkred", gt=NULL, maxp = .1) {
   if (!requireNamespace("TnT")) stop("install TnT to use this")
   if (!requireNamespace("GenomicRanges")) stop("install GenomicRanges to use this")
   txdb19 = TxDb.Hsapiens.UCSC.hg19.knownGene::TxDb.Hsapiens.UCSC.hg19.knownGene
@@ -82,7 +83,7 @@ tntplot2 = function(tab, snpcolor="lightblue", genecolor="gold", gt=NULL, maxp =
   GT@Data$display_label = TnT::strandlabel(syms, GenomicRanges::strand(GT@Data))
 # TRANSCRIPT
   if (is.null(gt)) gt = TnT::TxTrackFromTxDb(txdb19,
-      height=400, color=genecolor)  # consider making this optionally passed as a fixed object
+      height=400, color=txcolor)  # consider making this optionally passed as a fixed object
   suppressMessages({
     syms = gt@Data$tooltip$tx_name 
   })

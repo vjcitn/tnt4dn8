@@ -1,9 +1,11 @@
 suppressPackageStartupMessages({
 library(shiny)
 library(tnt4dn8)
+library(shinytoastr)
 })
 
 ui = fluidPage(
+ useToastr(),
  sidebarLayout(
   sidebarPanel(
    helpText("tnt4dn8 demo"),

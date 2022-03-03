@@ -7,7 +7,8 @@
 tntplot2(
   tab,
   snpcolor = "lightblue",
-  genecolor = "gold",
+  genecolor = "darkgreen",
+  txcolor = "darkred",
   gt = NULL,
   maxp = 0.1
 )
@@ -18,6 +19,8 @@ tntplot2(
 \item{snpcolor}{character(1)}
 
 \item{genecolor}{character(1)}
+
+\item{txcolor}{character(1)}
 
 \item{gt}{defaults to NULL, otherwise a GeneTrackFromTxDb-like object from TnT}
 
