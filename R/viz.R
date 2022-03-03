@@ -80,7 +80,7 @@ tntplot2 = function(tab, snpcolor="lightblue", genecolor="gold", gt=NULL, maxp =
   GT@Data$display_label = TnT::strandlabel(syms, GenomicRanges::strand(GT@Data))
 # TRANSCRIPT
   if (is.null(gt)) gt = TnT::TxTrackFromTxDb(TxDb.Hsapiens.UCSC.hg19.knownGene::TxDb.Hsapiens.UCSC.hg19.knownGene,
-      height=200, color=genecolor)  # consider making this optionally passed as a fixed object
+      height=400, color=genecolor)  # consider making this optionally passed as a fixed object
   suppressMessages({
     syms = gt@Data$tooltip$tx_name #AnnotationDbi::mapIds(org.Hs.eg.db::org.Hs.eg.db, keys=gt@Data$id, keytype="ENTREZID", column="SYMBOL")
   })
@@ -91,7 +91,7 @@ tntplot2 = function(tab, snpcolor="lightblue", genecolor="gold", gt=NULL, maxp =
    }
   t2g = tab2grngs(tab)
   tab$value = t2g$value
-  pt = TnT::PinTrack( t2g, height=400, tooltip = as.data.frame(tab), color=snpcolor )
+  pt = TnT::PinTrack( t2g, height=200, tooltip = as.data.frame(tab), color=snpcolor )
   TnT::TnTGenome(list(pt, GT, gt), view.range=(range(t2g)+10000), coord.range=GenomicRanges::ranges(range(t2g)+5e6)[1])
 }
     
