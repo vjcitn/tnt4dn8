@@ -58,7 +58,8 @@ tntplot = function(tab, snpcolor="lightblue", genecolor="gold", gt=NULL, maxp = 
 #' @param snpcolor character(1)
 #' @param genecolor character(1)
 #' @param txcolor character(1)
-#' @param gt defaults to NULL, otherwise a GeneTrackFromTxDb-like object from TnT
+#' @param GT defaults to NULL, otherwise a GeneTrackFromTxDb-like object from TnT
+#' @param tt defaults to NULL, otherwise a TxTrackFromTxDb-like object from TnT
 #' @param maxp numeric(1) if non-NULL loci with p-values greater than this are excluded
 #' @examples
 #' if (requireNamespace("TnT") & requireNamespace("TxDb.Hsapiens.UCSC.hg19.knownGene")) {
@@ -69,25 +70,26 @@ tntplot = function(tab, snpcolor="lightblue", genecolor="gold", gt=NULL, maxp = 
 #' print(tntplot2(chk2))
 #' }
 #' @export
-tntplot2 = function(tab, snpcolor="lightblue", genecolor="darkgreen", txcolor="darkred", gt=NULL, maxp = .1) {
+tntplot2 = function(tab, snpcolor="lightblue", genecolor="darkgreen", txcolor="darkred", GT=NULL,
+       tt = NULL, maxp = .1) {
   if (!requireNamespace("TnT")) stop("install TnT to use this")
   if (!requireNamespace("GenomicRanges")) stop("install GenomicRanges to use this")
   txdb19 = TxDb.Hsapiens.UCSC.hg19.knownGene::TxDb.Hsapiens.UCSC.hg19.knownGene
   odb = org.Hs.eg.db::org.Hs.eg.db
 # GENE
-  GT = TnT::GeneTrackFromTxDb(txdb19,
+  if (is.null(GT)) GT = TnT::GeneTrackFromTxDb(txdb19,
       height=100, color=genecolor)  # consider making this optionally passed as a fixed object
   suppressMessages({
     syms = AnnotationDbi::mapIds(odb, keys=GT@Data$id, keytype="ENTREZID", column="SYMBOL")
   })
   GT@Data$display_label = TnT::strandlabel(syms, GenomicRanges::strand(GT@Data))
 # TRANSCRIPT
-  if (is.null(gt)) gt = TnT::TxTrackFromTxDb(txdb19,
+  if (is.null(tt)) tt = TnT::TxTrackFromTxDb(txdb19,
       height=400, color=txcolor)  # consider making this optionally passed as a fixed object
   suppressMessages({
-    syms = gt@Data$tooltip$tx_name 
+    syms = tt@Data$tooltip$tx_name 
   })
-  gt@Data$display_label = TnT::strandlabel(syms, GenomicRanges::strand(gt@Data))
+  tt@Data$display_label = TnT::strandlabel(syms, GenomicRanges::strand(tt@Data))
   if (!is.null(maxp)) {
    todrop = which(tab$p > maxp)
    if (length(todrop)>0) tab = tab[-todrop,]
@@ -95,6 +97,6 @@ tntplot2 = function(tab, snpcolor="lightblue", genecolor="darkgreen", txcolor="d
   t2g = tab2grngs(tab)
   tab$value = t2g$value
   pt = TnT::PinTrack( t2g, height=200, tooltip = as.data.frame(tab), color=snpcolor )
-  TnT::TnTGenome(list(pt, GT, gt), view.range=(range(t2g)+10000), coord.range=GenomicRanges::ranges(range(t2g)+1e5)[1])
+  TnT::TnTGenome(list(pt, GT, tt), view.range=(range(t2g)+10000), coord.range=GenomicRanges::ranges(range(t2g)+1e5)[1])
 }
     

@@ -9,7 +9,8 @@ tntplot2(
   snpcolor = "lightblue",
   genecolor = "darkgreen",
   txcolor = "darkred",
-  gt = NULL,
+  GT = NULL,
+  tt = NULL,
   maxp = 0.1
 )
 }
@@ -22,7 +23,9 @@ tntplot2(
 
 \item{txcolor}{character(1)}
 
-\item{gt}{defaults to NULL, otherwise a GeneTrackFromTxDb-like object from TnT}
+\item{GT}{defaults to NULL, otherwise a GeneTrackFromTxDb-like object from TnT}
+
+\item{tt}{defaults to NULL, otherwise a TxTrackFromTxDb-like object from TnT}
 
 \item{maxp}{numeric(1) if non-NULL loci with p-values greater than this are excluded}
 }
