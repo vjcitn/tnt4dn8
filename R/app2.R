@@ -11,6 +11,7 @@ make_ui = function() fluidPage(
    helpText("tnt4dn8 demo"),
    selectInput("gene", "gene", choices = sort(avail_syms_gtex()), selected="RBCK1"),
    numericInput("radius", "radius", min=0, max=1e6, step=1e4, value=5e4),
+   actionButton("stopBtn", "stop app"),
    width=2
    ),
   mainPanel(
@@ -51,6 +52,9 @@ server = function(input, output, session) {
   output$desc = renderPrint({
    packageDescription("tnt4dn8")
   })
+  observeEvent(input$stopBtn, {
+    stopApp(NULL)
+    })
 }
   
 #' app code
