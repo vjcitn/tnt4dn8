@@ -6,6 +6,13 @@
 \usage{
 server(input, output, session)
 }
+\arguments{
+\item{input}{basic}
+
+\item{output}{basic}
+
+\item{session}{basic}
+}
 \description{
 demo server
 }

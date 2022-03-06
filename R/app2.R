@@ -29,6 +29,9 @@ make_ui = function() fluidPage(
 #' demo server
 #' @importFrom shinytoastr toastr_info
 #' @importFrom TnT renderTnT
+#' @param input basic
+#' @param output basic
+#' @param session basic
 server = function(input, output, session) {
   build_gt = reactive({
     toastr_info("building global gene models...")

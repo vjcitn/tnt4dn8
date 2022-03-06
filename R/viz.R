@@ -76,7 +76,7 @@ tntplot2 = function(tab, snpcolor="lightblue", genecolor="darkgreen", txcolor="d
        tt = NULL, maxp = .1, trunc_mlp = 300) {
   if (!requireNamespace("TnT")) stop("install TnT to use this")
   if (!requireNamespace("GenomicRanges")) stop("install GenomicRanges to use this")
-  uchr = unique(tab$chr)
+  uchr = as.character(unique(tab$chr))
   stopifnot(length(uchr)==1)
   seqlevelsStyle(uchr) = "UCSC"
   txdb38 = keepStandardChromosomes(TxDb.Hsapiens.UCSC.hg38.knownGene::TxDb.Hsapiens.UCSC.hg38.knownGene)
