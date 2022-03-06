@@ -11,7 +11,8 @@ tntplot2(
   txcolor = "darkred",
   GT = NULL,
   tt = NULL,
-  maxp = 0.1
+  maxp = 0.1,
+  trunc_mlp = 300
 )
 }
 \arguments{
@@ -28,12 +29,14 @@ tntplot2(
 \item{tt}{defaults to NULL, otherwise a TxTrackFromTxDb-like object from TnT}
 
 \item{maxp}{numeric(1) if non-NULL loci with p-values greater than this are excluded}
+
+\item{trunc_mlp}{numeric(1) defaults to 300, -log10p greater than this are reset to this value}
 }
 \description{
 detailed plot
 }
 \examples{
-if (requireNamespace("TnT") & requireNamespace("TxDb.Hsapiens.UCSC.hg19.knownGene")) {
+if (requireNamespace("TnT") & requireNamespace("TxDb.Hsapiens.UCSC.hg38.knownGene")) {
 data(gtex_b38_lung_chr20_exc)
 cands = avail_syms_gtex()
 cands

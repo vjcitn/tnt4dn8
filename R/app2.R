@@ -32,9 +32,9 @@ make_ui = function() fluidPage(
 server = function(input, output, session) {
   build_gt = reactive({
     toastr_info("building global gene models...")
-    txdb19 = TxDb.Hsapiens.UCSC.hg19.knownGene
-    tt = TnT::TxTrackFromTxDb(txdb19, height=400, color="darkred")
-    GT = TnT::GeneTrackFromTxDb(txdb19, height=100, color="darkgreen")
+    txdb38 = TxDb.Hsapiens.UCSC.hg38.knownGene
+    tt = TnT::TxTrackFromTxDb(txdb38, height=400, color="darkred")
+    GT = TnT::GeneTrackFromTxDb(txdb38, height=100, color="darkgreen")
     list(tt=tt, GT=GT)
     })
   output$gname = renderPrint({

@@ -21,7 +21,7 @@ tntplot(tab, snpcolor = "lightblue", genecolor = "gold", gt = NULL, maxp = 0.1)
 TnT approach
 }
 \examples{
-if (requireNamespace("TnT") & requireNamespace("TxDb.Hsapiens.UCSC.hg19.knownGene")) {
+if (requireNamespace("TnT") & requireNamespace("TxDb.Hsapiens.UCSC.hg38.knownGene")) {
 data(gtex_b38_lung_chr20_exc)
 cands = avail_syms_gtex()
 cands

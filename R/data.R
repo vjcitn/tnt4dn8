@@ -22,3 +22,8 @@
 #' @docType data
 #' @format TnT genetrack
 "genetrack_hg19"
+
+#' small dn8-similar GWAS catalog excerpt, chr20
+#' @docType data
+#' @format data.frame
+"limgwcat_b38"
