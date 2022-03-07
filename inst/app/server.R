@@ -20,9 +20,11 @@ server = function(input, output, session) {
    sym = input$gene
    rad = input$radius
    data(gtex_b38_lung_chr20_exc)
+   data(limgwcat_b38)
    tab = gtex_b38_lung_chr20_exc |> filter_sym(sym, radius=rad) |> as.data.frame()
+   tab2 = limgwcat_b38 |> filter_sym(sym, radius=rad) |> as.data.frame()
    bgt = build_gt()
-   tntplot2(tab, tt=bgt$tt, GT=bgt$GT)
+   tntplot3(tab, tab2, tt=bgt$tt, GT=bgt$GT, lab1="COPD GWAS", lab2="EBI GWASCAT")
   })
   output$desc = renderPrint({
    packageDescription("tnt4dn8")
