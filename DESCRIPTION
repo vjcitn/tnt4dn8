@@ -1,6 +1,6 @@
 Package: tnt4dn8
 Title: TnT applications with GWAS in dn8 format
-Version: 0.0.12
+Version: 0.0.13
 Authors@R:
     person(given = "Vince",
            family = "Carey",
