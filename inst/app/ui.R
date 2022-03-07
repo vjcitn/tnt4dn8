@@ -15,6 +15,8 @@ fluidPage(
   mainPanel(
    tabsetPanel(
     tabPanel("manh", verbatimTextOutput("gname"), TnT::TnTOutput("tntmanh")),
+    tabPanel("eqtab", DT::dataTableOutput("eqtltab")),
+    tabPanel("gwastab", DT::dataTableOutput("gwastab")),
     tabPanel("about", helpText("simple demonstration, small set of genes on chr20, GTEx lung excerpt"),
       helpText("second track demo: EBI GWAS catalog; note all -log10 p values greater than 90 are truncated to 90; get actual p-value by clicking on glyph"),
       verbatimTextOutput("desc"))

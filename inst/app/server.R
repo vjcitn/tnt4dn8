@@ -29,6 +29,18 @@ server = function(input, output, session) {
   output$desc = renderPrint({
    packageDescription("tnt4dn8")
   })
+  output$eqtltab = DT::renderDataTable({
+   sym = input$gene
+   rad = input$radius
+   data(gtex_b38_lung_chr20_exc)
+   gtex_b38_lung_chr20_exc |> filter_sym(sym, radius=rad) |> as.data.frame()
+  })
+  output$gwastab = DT::renderDataTable({
+   sym = input$gene
+   rad = input$radius
+   data(limgwcat_b38)
+   limgwcat_b38 |> filter_sym(sym, radius=rad) |> as.data.frame()
+  })
   observeEvent(input$stopBtn, {
     stopApp(NULL)
     })
