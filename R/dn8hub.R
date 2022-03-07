@@ -76,13 +76,13 @@ tbl.dn8_hub = function(src, ...) {
 }
 
 
-#' filter a symbol from a table meeting dn8 naming conditions
+#' filter a symbol from a table meeting dn8 naming conditions, note, hg38 coordinates are expected and not lifted over
 #' @import rtracklayer
 #' @param .data a tbl
 #' @param sym a character(1) gene symbol
 #' @param radius numeric(1) include `radius` bp upstream and downstream of gene body limits
 #' @note if `pos_b38` is found in the dn8 table, gene addresses from EnsDb.Hsapiens.v79 are used to get gene
-#' addresses in hg38 coordinates.  Otherwise, EnsDb.Hsapiens.v75 is used for gene coordinates.
+#' addresses in hg38 coordinates.  
 #' @examples
 #' if (interactive()) {
 #'  data(gtex_b38_lung_chr20_exc)
@@ -114,31 +114,34 @@ filter_sym = function (.data, sym, radius=0 )
         if (length(grep("subsetted_eqtl_cis_nhw.sqlite", dbname))>0) mychr = paste0("chr", mychr)
         }
     if ("pos_b38" %in% colnames(.data)) {
-        if (!requireNamespace("rtracklayer")) stop("install rtracklayer to use this application")
-        tmp = .data |> filter(chr == mychr & pos_b38 >= (mys-radius) & pos_b38 <= (mye+radius)) |> as.data.frame()
-        tmpg = GenomicRanges::GRanges(tmp$chr, IRanges::IRanges(tmp$pos_b38, width=1))
-        GenomicRanges::mcols(tmpg) = tmp
-        testchr = as.character(GenomeInfoDb::seqnames(tmpg)[1])
-        lchr = length(grep("^chr", testchr))
-        if (lchr == 0) GenomeInfoDb::seqlevels(tmpg) = paste0("chr", GenomeInfoDb::seqlevels(tmpg))
-        data(hg38ToHg19)
-        remapped = rtracklayer::liftOver(tmpg, hg38ToHg19)
-        GenomeInfoDb::seqlevelsStyle(remapped) = "UCSC"
-        ans = unlist(remapped)
-        ans = tibble::as_tibble(ans)  # for compatibility, don't return GRanges
-        ans$pos = ans$start
-# at this point, liftOver may have introduced another chromosome in the table!
-        ans$seqnames = as.character(ans$seqnames)
-        chrtab = table(ans$seqnames)
-        nchr = length(chrtab)
-        if (nchr > 1) {
-           if (nchr > 2) stop("liftOver leads to multiple chromosomes")
-           minor = chrtab[which.min(chrtab)]
-           bad = which(ans$seqnames == names(minor))
-           ans = ans[-bad,]
-           }
-        }       
-    else ans = .data |> filter(chr == mychr & pos >= (mys-radius) & pos <= (mye+radius))
+# LET'S COMMIT TO GRCh38
+         .data$pos = .data$pos_b38
+         }
+#        if (!requireNamespace("rtracklayer")) stop("install rtracklayer to use this application")
+#        tmp = .data |> filter(chr == mychr & pos_b38 >= (mys-radius) & pos_b38 <= (mye+radius)) |> as.data.frame()
+#        tmpg = GenomicRanges::GRanges(tmp$chr, IRanges::IRanges(tmp$pos_b38, width=1))
+#        GenomicRanges::mcols(tmpg) = tmp
+#        testchr = as.character(GenomeInfoDb::seqnames(tmpg)[1])
+#        lchr = length(grep("^chr", testchr))
+#        if (lchr == 0) GenomeInfoDb::seqlevels(tmpg) = paste0("chr", GenomeInfoDb::seqlevels(tmpg))
+#        data(hg38ToHg19)
+#        remapped = rtracklayer::liftOver(tmpg, hg38ToHg19)
+#        GenomeInfoDb::seqlevelsStyle(remapped) = "UCSC"
+#        ans = unlist(remapped)
+#        ans = tibble::as_tibble(ans)  # for compatibility, don't return GRanges
+#        ans$pos = ans$start
+## at this point, liftOver may have introduced another chromosome in the table!
+#        ans$seqnames = as.character(ans$seqnames)
+#        chrtab = table(ans$seqnames)
+#        nchr = length(chrtab)
+#        if (nchr > 1) {
+#           if (nchr > 2) stop("liftOver leads to multiple chromosomes")
+#           minor = chrtab[which.min(chrtab)]
+#           bad = which(ans$seqnames == names(minor))
+#           ans = ans[-bad,]
+#           }
+#        }       
+    ans = .data |> filter(chr == mychr & pos >= (mys-radius) & pos <= (mye+radius))
     ans
 }
 

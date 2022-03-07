@@ -2,7 +2,7 @@
 % Please edit documentation in R/dn8hub.R
 \name{filter_sym}
 \alias{filter_sym}
-\title{filter a symbol from a table meeting dn8 naming conditions}
+\title{filter a symbol from a table meeting dn8 naming conditions, note, hg38 coordinates are expected and not lifted over}
 \usage{
 filter_sym(.data, sym, radius = 0)
 }
@@ -14,11 +14,11 @@ filter_sym(.data, sym, radius = 0)
 \item{radius}{numeric(1) include `radius` bp upstream and downstream of gene body limits}
 }
 \description{
-filter a symbol from a table meeting dn8 naming conditions
+filter a symbol from a table meeting dn8 naming conditions, note, hg38 coordinates are expected and not lifted over
 }
 \note{
 if `pos_b38` is found in the dn8 table, gene addresses from EnsDb.Hsapiens.v79 are used to get gene
-addresses in hg38 coordinates.  Otherwise, EnsDb.Hsapiens.v75 is used for gene coordinates.
+addresses in hg38 coordinates.
 }
 \examples{
 if (interactive()) {
