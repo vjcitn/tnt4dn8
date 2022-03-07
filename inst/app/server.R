@@ -7,9 +7,9 @@ library(tnt4dn8)
 server = function(input, output, session) {
   build_gt = reactive({
     shinytoastr::toastr_info("building global gene models...")
-    txdb19 = TxDb.Hsapiens.UCSC.hg19.knownGene
-    tt = TnT::TxTrackFromTxDb(txdb19, height=400, color="darkred")
-    GT = TnT::GeneTrackFromTxDb(txdb19, height=100, color="darkgreen")
+    txdb38 = GenomeInfoDb::keepStandardChromosomes(TxDb.Hsapiens.UCSC.hg38.knownGene)
+    tt = TnT::TxTrackFromTxDb(txdb38, height=400, color="darkred", seqlevel="chr20")
+    GT = TnT::GeneTrackFromTxDb(txdb38, height=100, color="darkgreen", seqlevel="chr20")
     list(tt=tt, GT=GT)
     })
   output$gname = renderPrint({
