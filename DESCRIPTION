@@ -1,6 +1,6 @@
 Package: tnt4dn8
 Title: TnT applications with GWAS in dn8 format
-Version: 0.0.15
+Version: 0.0.16
 Authors@R:
     person(given = "Vince",
            family = "Carey",
@@ -13,10 +13,10 @@ Depends: R (>= 4.1.0), tools, utils, dplyr, rtracklayer, GenomeInfoDb, shiny,
 	TxDb.Hsapiens.UCSC.hg38.knownGene
 Imports: DBI, RSQLite, methods, tibble, shinytoastr, TnT, 
   AnnotationDbi, GenomicRanges, IRanges,
-  ggplot2, org.Hs.eg.db
+  ggplot2, org.Hs.eg.db, igvR, BrowserViz
 Suggests: knitr, BiocStyle, testthat, rmarkdown
 License: Artistic-2.0
 VignetteBuilder: knitr
 biocViews: Genetics, Visualization
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.1
 Encoding: UTF-8

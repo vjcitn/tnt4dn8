@@ -52,6 +52,6 @@ cands = avail_syms_gtex()
 cands
 chk2 = gtex_b38_lung_chr20_exc |> filter_sym(cands[3], radius=5e4) |> as.data.frame()
 chk3 = limgwcat_b38 |> filter_sym(cands[3], radius=5e4) |> as.data.frame()
-print(tntplot3(chk2, chk3, lab1="COPD GWAS", lab2="EBI GWAS cat"))
+print(tntplot3(chk2, chk3, lab1="GTEx Lung", lab2="EBI GWAS cat"))
 }
 }
