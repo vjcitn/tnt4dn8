@@ -75,3 +75,29 @@ runBasic = function(chr="20", start=60000, end=1.1e6, dn8like, use="mlog10p", po
  track <- DataFrameQuantitativeTrack("bedGraph", tbl.bedGraph, color="red", autoscale=TRUE)
  displayTrack(igv, track)
 }
+
+#> head(pax_demo)
+#  CHR             SNP       BP A1 A2    FRQ   INFO    BETA     SE      P
+#1  19 19:57859145:G:T 57859145  G  T 0.9259 0.8377 -0.0423 0.0306 0.1679
+#6  19 19:57860340:C:A 57860340  C  A 0.7395 0.9998  0.0146 0.0169 0.3911
+
+# > args(GWASTrack)
+# function (trackName, table, chrom.col, pos.col, pval.col, color = "darkBlue", 
+#     trackHeight = 50, visibilityWindow = 1e+05) 
+# NULL
+
+#' abc 
+#' @examples
+#' data(pax_demo)
+#' # eliminate "uninteresting" loci
+#' pax_demo_filt = pax_demo[pax_demo$P < .1,]
+#' basic2(table=pax_demo_filt)
+#' @export
+basic2 = function(table, trackName="demo", pval.col=10, chrom.col=1, pos.col=3, ...) {
+  tr = GWASTrack(trackName=trackName, table=table, chrom.col=chrom.col,
+    pos.col=pos.col, pval.col=pval.col, ...)
+  igv <- igvR()
+  setBrowserWindowTitle(igv, "simple igvR demo")
+  setGenome(igv, "hg38")
+  displayTrack(igv, tr)
+}
