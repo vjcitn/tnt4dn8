@@ -86,18 +86,28 @@ runBasic = function(chr="20", start=60000, end=1.1e6, dn8like, use="mlog10p", po
 #     trackHeight = 50, visibilityWindow = 1e+05) 
 # NULL
 
-#' abc 
+#' simple demo for a table like those produced by Ahmed
+#' @importFrom igvR GWASTrack igvR setGenome displayTrack
+#' @importFrom BrowserViz setBrowserWindowTitle
+#' @param table data.frame with p-values, chr, pos in specified columns with known integer indices
+#' @param trackName character(1)
+#' @param pval.col numeric index giving column number of table holding p-values
+#' @param chrom.col numeric index giving column number of table holding numeric chromosome 
+#' @param pos.col numeric index giving column number of table holding numeric bp position
+#' @param genome character(1) defaults to "hg38"
+#' @param windowTitle character(1) defaults to "simple demo"
+#' @param \dots passed to igvR::GWASTrack
 #' @examples
 #' data(pax_demo)
 #' # eliminate "uninteresting" loci
 #' pax_demo_filt = pax_demo[pax_demo$P < .1,]
 #' basic2(table=pax_demo_filt)
 #' @export
-basic2 = function(table, trackName="demo", pval.col=10, chrom.col=1, pos.col=3, ...) {
+basic2 = function(table, trackName="demo", pval.col=10, chrom.col=1, pos.col=3, genome="hg38", windowTitle="simple demo", ...) {
   tr = GWASTrack(trackName=trackName, table=table, chrom.col=chrom.col,
     pos.col=pos.col, pval.col=pval.col, ...)
   igv <- igvR()
-  setBrowserWindowTitle(igv, "simple igvR demo")
-  setGenome(igv, "hg38")
+  setBrowserWindowTitle(igv, windowTitle)
+  setGenome(igv, genome)
   displayTrack(igv, tr)
 }

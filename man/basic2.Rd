@@ -2,7 +2,7 @@
 % Please edit documentation in R/basic_igv.R
 \name{basic2}
 \alias{basic2}
-\title{abc}
+\title{simple demo for a table like those produced by Ahmed}
 \usage{
 basic2(
   table,
@@ -10,11 +10,29 @@ basic2(
   pval.col = 10,
   chrom.col = 1,
   pos.col = 3,
+  genome = "hg38",
   ...
 )
 }
+\arguments{
+\item{table}{data.frame with p-values, chr, pos in specified columns with known integer indices}
+
+\item{trackName}{character(1)}
+
+\item{pval.col}{numeric index giving column number of table holding p-values}
+
+\item{chrom.col}{numeric index giving column number of table holding numeric chromosome}
+
+\item{pos.col}{numeric index giving column number of table holding numeric bp position}
+
+\item{genome}{character(1) defaults to "hg38"}
+
+\item{\dots}{passed to igvR::GWASTrack}
+
+\item{windowTitle}{character(1) defaults to "simple demo"}
+}
 \description{
-abc
+simple demo for a table like those produced by Ahmed
 }
 \examples{
 data(pax_demo)
