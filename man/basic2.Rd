@@ -11,6 +11,7 @@ basic2(
   chrom.col = 1,
   pos.col = 3,
   genome = "hg38",
+  windowTitle = "simple demo",
   ...
 )
 }
@@ -27,9 +28,9 @@ basic2(
 
 \item{genome}{character(1) defaults to "hg38"}
 
-\item{\dots}{passed to igvR::GWASTrack}
-
 \item{windowTitle}{character(1) defaults to "simple demo"}
+
+\item{\dots}{passed to igvR::GWASTrack}
 }
 \description{
 simple demo for a table like those produced by Ahmed
